@@ -1,0 +1,10 @@
+scapy
+pandas
+colorama
+netifaces
+psutil
+pathlib
+urllib3
+bs4
+pyudev
+regex
