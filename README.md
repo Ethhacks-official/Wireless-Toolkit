@@ -43,13 +43,10 @@ Captive Portal menu is used in Evil Twin type 1 and Evil Twin type 2.Captive Por
 It requires the url of login page of target website to create the captive portal exactly similar to that login page. It will also ask for name, it could be random and is just to differentiate websites with different name in apache2 folder.
 
 Note: You must be connected to internet to create captive portal with url. Captive portal of some websites like FaceBook or Google could not be created using url. So, try using already created captive portal of famous websites.
-
    2. Captive Portal Of Wifi network:
 If your target network is open network and have captive portal for authentication, then you can use this option. It will create captive portal look exactly similar to the captive portal of target network.
-
    3. Captive portal of famous websites:
 It include login pages of 43 famous websites. By selecting one of these,it will create captive portal of that login page of website.
-
    4. Want to place your own portal files:
 If you want to place captive portal created by you, then use this option. First place your captive portal files in a folder and place this folder in "/var/www/html" folder. It will list all folders present in "/var/www/hrml". Select your folder and it will create captive portal using it.  
 
