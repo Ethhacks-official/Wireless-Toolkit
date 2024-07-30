@@ -86,7 +86,13 @@ class EvilTwin3:
                     print("1. OPEN Access Point..")
                     type_of_AP = input(f" Select the type of Access Point to be created: Type corresponding number. -->{RESET} ")
                     if type_of_AP == "0":
-                        pass_for_AP = input(f"{GREEN}[==] Provide the Password for AP. It should be samilar to target network to make the whole attack work perfectly if you want to make AP similar to a target network . -->{RESET} ")
+                        pass_ok = 0
+                        while pass_ok == 0:
+                            pass_for_AP = input(f"{GREEN}[==] Provide the Password for AP. It should be samilar to target network to make the whole attack work perfectly if you want to make AP similar to a target network . -->{RESET} ")
+                            if len(pass_for_AP) < 8:
+                                print(f"\n{RED}[-] Password Should contain 8 characters.{RESET}\n")
+                            else:
+                                pass_ok = 1                        
                         self.encrypt_access_point(pass_for_AP)
                         Sources().change_interface_channel(self.wireless_interface2,self.target_network["channel"])
                         os.system("clear")
@@ -175,7 +181,13 @@ class EvilTwin3:
                 print("1. OPEN Access Point..")
                 type_of_AP = input(f" Select the type of Access Point to be created: Type corresponding number. -->{RESET} ")
                 if type_of_AP == "0":
-                    pass_for_AP = input(f"{GREEN}[==] Provide the Password for AP. It should be samilar to target network to make the whole attack work perfectly if you want to make AP similar to a target network . -->{RESET} ")
+                    pass_ok = 0
+                    while pass_ok == 0:
+                        pass_for_AP = input(f"{GREEN}[==] Provide the Password for AP. It should be samilar to target network to make the whole attack work perfectly if you want to make AP similar to a target network . -->{RESET} ")
+                        if len(pass_for_AP) < 8:
+                            print(f"\n{RED}[-] Password Should contain 8 characters.{RESET}\n")
+                        else:
+                            pass_ok = 1
                     self.encrypt_access_point(pass_for_AP)
                     os.system("clear")
                     print(f"{GREEN}[+][+]Starting Capturing Packets......{RESET}")

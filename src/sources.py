@@ -648,21 +648,33 @@ class Sources:
 
     def mitm_attacks(self,interface):
         def packet_sniff():
-            sniff(iface = interface, store = False, prn = process_packet,filter = "port 80")
+            sniff(iface = interface, store = False, prn = process_packet)
+        def get_domain(ip):
+            try:
+                domain = socket.gethostbyaddr(ip)[0]
+            except socket.herror:
+                domain = "Unknown"
+            return domain
         def process_packet(packet):
             if packet.haslayer(HTTPRequest):
-                # if this packet is an HTTP Request
-                # get the requested URL
                 url = packet[HTTPRequest].Host.decode() + packet[HTTPRequest].Path.decode()
-                # get the requester's IP Address
                 ip = packet[IP].src # type: ignore
-                # get the request method
                 method = packet[HTTPRequest].Method.decode()
-                print(f"\n{GREEN}[+] {ip} Requested {url} with {method}{RESET}")
+                print(f"HTTP REQUEST --> {GREEN}[+] {ip} Requested {url} with {method}{RESET}")
                 if packet.haslayer(Raw) and method == "POST":
-                    # if show_raw flag is enabled, has raw data, and the requested method is "POST"
-                    # then show raw
-                    print(f"\n{RED}[*] Some useful Raw data: {packet[Raw].load}{RESET}")
+                    print(f"HTTP REQUEST IMPORTANT DATA --> {RED}[*] Some useful Raw data: {packet[Raw].load}{RESET}")
+            elif Ether in packet:
+                src_mac = packet[Ether].src
+                dst_mac = packet[Ether].dst
+                if IP in packet:
+                    src_ip = packet[IP].src
+                    dst_ip = packet[IP].dst
+                    if DNS in packet and packet[DNS].opcode == 0 and packet[DNS].ancount == 0:
+                        dns_query = packet[DNSQR].qname.decode('utf-8')
+                        print(f"DNS REQUEST --> {BLUE}Source MAC:{RESET}{GREEN} {src_mac}{RESET} , {BLUE}Source IP:{RESET}{GREEN} {src_ip}{RESET}  | {BLUE}Destination MAC:{RESET}{GREEN} {dst_mac}{RESET}, {BLUE}Destination IP: {RESET}{GREEN}{dst_ip}{RESET} | {BLUE}DNS Query for:{RESET}{GREEN} {dns_query}{RESET}")
+                    else:
+                        print(f"HTTPS REQUEST --> {BLUE}Source MAC:{RESET}{GREEN} {src_mac}{RESET} , {BLUE}Source IP:{RESET}{GREEN} {src_ip}{RESET}  | {BLUE}Destination MAC:{RESET}{GREEN} {dst_mac}{RESET}, {BLUE}Destination IP: {RESET}{GREEN}{dst_ip}{RESET} | {BLUE}WebSite Visited:{RESET}{GREEN} {get_domain(dst_ip)}{RESET}")
+
 
         packet_sniff()
 
