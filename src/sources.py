@@ -663,14 +663,14 @@ class Sources:
                 print(f"HTTP REQUEST --> {GREEN}[+] {ip} Requested {url} with {method}{RESET}")
                 if packet.haslayer(Raw) and method == "POST":
                     print(f"HTTP REQUEST IMPORTANT DATA --> {RED}[*] Some useful Raw data: {packet[Raw].load}{RESET}")
-            elif Ether in packet:
-                src_mac = packet[Ether].src
-                dst_mac = packet[Ether].dst
-                if IP in packet:
-                    src_ip = packet[IP].src
-                    dst_ip = packet[IP].dst
-                    if DNS in packet and packet[DNS].opcode == 0 and packet[DNS].ancount == 0:
-                        dns_query = packet[DNSQR].qname.decode('utf-8')
+            elif Ether in packet: # type: ignore
+                src_mac = packet[Ether].src # type: ignore
+                dst_mac = packet[Ether].dst # type: ignore
+                if IP in packet: # type: ignore
+                    src_ip = packet[IP].src # type: ignore
+                    dst_ip = packet[IP].dst # type: ignore
+                    if DNS in packet and packet[DNS].opcode == 0 and packet[DNS].ancount == 0: # type: ignore
+                        dns_query = packet[DNSQR].qname.decode('utf-8') # type: ignore
                         print(f"DNS REQUEST --> {BLUE}Source MAC:{RESET}{GREEN} {src_mac}{RESET} , {BLUE}Source IP:{RESET}{GREEN} {src_ip}{RESET}  | {BLUE}Destination MAC:{RESET}{GREEN} {dst_mac}{RESET}, {BLUE}Destination IP: {RESET}{GREEN}{dst_ip}{RESET} | {BLUE}DNS Query for:{RESET}{GREEN} {dns_query}{RESET}")
                     else:
                         print(f"HTTPS REQUEST --> {BLUE}Source MAC:{RESET}{GREEN} {src_mac}{RESET} , {BLUE}Source IP:{RESET}{GREEN} {src_ip}{RESET}  | {BLUE}Destination MAC:{RESET}{GREEN} {dst_mac}{RESET}, {BLUE}Destination IP: {RESET}{GREEN}{dst_ip}{RESET} | {BLUE}WebSite Visited:{RESET}{GREEN} {get_domain(dst_ip)}{RESET}")
