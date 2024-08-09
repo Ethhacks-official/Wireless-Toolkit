@@ -114,11 +114,9 @@ class EvilTwin3:
                         print("\nPress 'CTRL+C' Once to restart Access Point and Capturing. Press 'CTRL+C' twice to close the attack.")
                         Sources().mitm_attacks(self.wireless_interface1)
             except KeyboardInterrupt:
-                os.system("clear")
-                print(f"\n{GREEN}[+]Want to close the whole Attack:::")
-                close = input(f" \tType 'y' for Yes and 'n' for no  >>{RESET}").lower()
-                if close == "y":
-                    self.closing_access_point()
+                print(f"\n{GREEN}[+]Closing the whole Attack:::")
+                close = input(f" \t Press enter to close the attack  >>{RESET}").lower()
+                self.closing_access_point()
                 time.sleep(1)
                 os.system("clear")
             except Exception as e:
@@ -139,11 +137,9 @@ class EvilTwin3:
                         Sources().mitm_attacks(self.wireless_interface1)
                     except KeyboardInterrupt:
                         check = 0
-                        os.system("clear")
-                        print(f"\n{GREEN}[+]Want to close the whole Attack:::")
-                        close = input(f" \tType 'y' for Yes and 'n' for no  >>{RESET}").lower()
-                        if close == "y":
-                            self.closing_access_point()
+                        print(f"\n{GREEN}[+]Closing the whole Attack:::")
+                        close = input(f" \t Press enter to close the attack  >>{RESET}").lower()
+                        self.closing_access_point()
                         time.sleep(1)
                         os.system("clear")
                     except Exception as e:
@@ -210,11 +206,9 @@ class EvilTwin3:
                 self.closing_access_point()
                 time.sleep(2)
             except KeyboardInterrupt:
-                os.system("clear")
-                print(f"\n{GREEN}[+]Want to close the whole Attack:::")
-                close = input(f" \tType 'y' for Yes and 'n' for no  >>{RESET}").lower()
-                if close == "y":
-                    self.closing_access_point()
+                print(f"\n{GREEN}[+]Closing the whole Attack:::")
+                close = input(f" \t Press enter to close the attack  >>{RESET}").lower()
+                self.closing_access_point()
                 time.sleep(1)
                 os.system("clear")
             else:
@@ -229,11 +223,9 @@ class EvilTwin3:
                         Sources().mitm_attacks(self.wireless_interface1)
                     except KeyboardInterrupt:
                         check = 0
-                        os.system("clear")
-                        print(f"\n{GREEN}[+]Want to close the whole Attack:::")
-                        close = input(f" \tType 'y' for Yes and 'n' for no  >>{RESET}").lower()
-                        if close == "y":
-                            self.closing_access_point()
+                        print(f"\n{GREEN}[+]Closing the whole Attack:::")
+                        close = input(f" \t Press enter to close the attack  >>{RESET}").lower()
+                        self.closing_access_point()
                         time.sleep(1)
                         os.system("clear")
                     except Exception as e:

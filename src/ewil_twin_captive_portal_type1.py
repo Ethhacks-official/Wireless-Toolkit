@@ -72,10 +72,9 @@ class EwilTwin1:
                 time.sleep(2)
             except KeyboardInterrupt:
                 source.saving_captured()
-                print(f"\n{GREEN}[+]Want to close the whole Attack:::")
-                close = input(f" \tType 'y' for Yes and 'n' for no  >>{RESET}").lower()
-                if close == "y":
-                    source.closing_access_point()
+                print(f"\n{GREEN}[+]Closing the whole Attack:::")
+                close = input(f" \t Press enter to close the attack  >>{RESET}").lower()
+                source.closing_access_point()
                 time.sleep(1)
                 os.system("clear")
             else:
@@ -91,10 +90,9 @@ class EwilTwin1:
                     except KeyboardInterrupt:
                         check = 0
                         source.saving_captured()
-                        print(f"\n{GREEN}[+]Want to close the whole Attack:::")
-                        close = input(f" \tType 'y' for Yes and 'n' for no  >>{RESET}").lower()
-                        if close == "y":
-                            source.closing_access_point()
+                        print(f"\n{GREEN}[+]Closing the whole Attack:::")
+                        close = input(f" \t Press enter to close the attack  >>{RESET}").lower()
+                        source.closing_access_point()
                         time.sleep(1)
                         os.system("clear")
                     except Exception as e:

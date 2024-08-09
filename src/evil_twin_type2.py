@@ -82,18 +82,16 @@ class EvilTwin2:
                 source.closing_access_point()
                 time.sleep(2)
             except KeyboardInterrupt:
-                print(f"\n{GREEN}[+]Want to close the whole Attack:::")
-                close = input(f" \tType 'y' for Yes and 'n' for no  >>{RESET}").lower()
-                if close == "y":
-                    source.closing_access_point()
+                print(f"\n{GREEN}[+]Closing the whole Attack:::")
+                close = input(f" \t Press enter to close the attack  >>{RESET}").lower()
+                source.closing_access_point()
                 time.sleep(1)
                 os.system("clear")
             else:
                 if source.pass_found == 1:
-                    print(f"\n{GREEN}[+]Want to close the whole Attack:::")
-                    close = input(f" \tType 'y' for Yes and 'n' for no  >>{RESET}").lower()
-                    if close == "y":
-                        source.closing_access_point()
+                    print(f"\n{GREEN}[+]Closing the whole Attack:::")
+                    close = input(f" \t Copy the found password and press enter to close the attack  >>{RESET}").lower()
+                    source.closing_access_point()
                     time.sleep(1)
                     os.system("clear")
                     
@@ -109,11 +107,9 @@ class EvilTwin2:
                             source.capture_password_and_verify(self.wireless_interface1,f"{self.handshakefiles_folder}{captured_file}")
                         except KeyboardInterrupt:
                             check = 0
-                            os.system("clear")
-                            print(f"\n{GREEN}[+]Want to close the whole Attack:::")
-                            close = input(f" \tType 'y' for Yes and 'n' for no  >>{RESET}").lower()
-                            if close == "y":
-                                source.closing_access_point()
+                            print(f"\n{GREEN}[+] Closing  the whole Attack:::")
+                            close = input(f" \tPress enter to close  >>{RESET}").lower()
+                            source.closing_access_point()
                             time.sleep(1)
                             os.system("clear")
                         except Exception as e:
@@ -124,12 +120,11 @@ class EvilTwin2:
                             source.closing_access_point()
                             time.sleep(2)
                         else:
-                            if source.pass_found == True:
+                            if source.pass_found == 1:
                                 check = 0
-                                print(f"\n{GREEN}[+]Want to close the whole Attack:::")
-                                close = input(f" \tType 'y' for Yes and 'n' for no  >>{RESET}").lower()
-                                if close == "y":
-                                    source.closing_access_point()
+                                print(f"\n{GREEN}[+]Closing the whole Attack:::")
+                                close = input(f" \t Copy the found password and press enter to close the attack  >>{RESET}").lower()
+                                source.closing_access_point()
                                 time.sleep(1)
                                 os.system("clear")
                                 
