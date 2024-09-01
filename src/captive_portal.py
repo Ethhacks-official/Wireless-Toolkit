@@ -41,10 +41,16 @@ class CaptivePortal:
     def captive_portal_by_url(self):
         try:
             print(f"{BLUE}[!] Make sure you are connected to internet to Clone wesbite using url!!!! {RESET}")
-            url = input(f"\n{GREEN} Please enter url of login page of website here:--> {RESET}")
+            url = input(f"\n{GREEN} Please enter url of login page of website here  e.g 'https://example.com':--> {RESET}")
             website_name = input(f"\n{GREEN} Please enter name for website to be saved in your computer. It could be random. :--> {RESET}")
             files_location = f'/var/www/html/'
-            self.clone_website(url,files_location,website_name)
+            while True:
+                output = self.clone_website(url,files_location,website_name)
+                if output == "ok":
+                    break
+                else:
+                    os.system("clear")
+                    url = input("[!] Could not clone to provided url. It could be not connected to internet or wrong url. Type the correct url again e.g 'https://example.com' -->")
             urls = self.homepage_website_url(website_name)
             self.configuring_redirecting_index_file(urls)
             self.configuring_main_index_file(self.main_url)
@@ -53,17 +59,30 @@ class CaptivePortal:
 
     def captive_portal_from_a_wifi(self):
         try:
-            # print(Sources().get_portal_ip())
-            # time.sleep(10)
             network_config = Sources()
             website_name = input(f"\n{GREEN} Please enter name for website to be saved in your computer. It could be random. :--> {RESET}")
             network_config.connect_to_open_wifi(self.networkname,self.networkinterface)
             ip = network_config.get_ip_address(self.networkinterface)
             ip = ip.split(".")
-            portal_ip = f"{ip[0]}.{ip[1]}.{ip[2]}.1"
+            portal_ip = f"{ip[0]}.{ip[1]}.{ip[2]}.2"
             url = f"http://{portal_ip}/"
             files_location = f'/var/www/html/'
-            self.clone_website(url,files_location,website_name)
+            while True:
+                output = self.clone_website(url,files_location,website_name)
+                if output == "ok":
+                    break
+                else:
+                    if url == f"http://{portal_ip}/":
+                        url = f"https://{portal_ip}/"
+                    else:
+                        os.system("clear")
+                        portal_ip = input("[!] Captive portal is not present on default gateway ip address. Provide the ip address manually of target captive portal and also specify port number if it is other than 443 or 80 e.g '192.168.1.3:1000'--> ")
+                        url = f"http://{portal_ip}/"
+                        network_config.disconnect_to_open_wifi(self.networkinterface)
+                        time.sleep(1)
+                        network_config.connect_to_open_wifi(self.networkname,self.networkinterface)
+                        time.sleep(1)
+
             network_config.disconnect_to_open_wifi(self.networkinterface)
             time.sleep(1)
             os.system("clear")
@@ -159,11 +178,17 @@ class CaptivePortal:
     def clone_website(self,website,path,website_name):
         print(f"{GREEN}\n[+] Cloning login page::::{RESET}")
         result = subprocess.run(f"wget -m -k -p '{website}' -P '{path}{website_name}'", shell=True, capture_output=True, text=True)
-        if website_name in Sources().list_directory(path):
+        if "failed: Connection refused." in result.stderr or "failed: No route to host." in result.stderr or "failed: Name or service not known." in result.stderr and "Converted links in 0 files" in result.stderr:
+            time.sleep(1)
+            return ""
+        elif website_name in Sources().list_directory(path):
+            time.sleep(1)
             print(f"{GREEN}\n[+][+] Website is cloned Succussfully in folder name {website_name} !!!!!!!{RESET}")
+            return "ok"       
         else:
+            time.sleep(1)
             print(f"{RED}\n[-][-] Due to some issues, website could not cloned successfully. Try Again by starting from beginning ---- {RESET}")
-        time.sleep(1)
+            return ""
 
     def homepage_website_url(self,website):
         url = f"/var/www/html/{website}"
