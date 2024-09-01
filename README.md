@@ -25,6 +25,8 @@ sudo pip3 install -r requirements.txt
 
 - Change Mode of Wireless Adaptor:
 It can be used to change the mode of Wireless adaptor from managed to monitor or monitor to managed accordingly.
+- Change Mac Address of Wireless Adaptor:
+It can be used to change the mac address of Wireless adaptor. It have two option either change mac address to new mac address provided by you or new mac address similar to mac address or bssid of target network. For second option, tool will list the surronding networks and after selecting the target network, it will convert the mac address of adapter to the mac address or bssid of selected target network.
 - Evil Twin type 1:
 
 Evil Twin attack type 1 against a target network will perform Deauthentication attack on target network and will create a Rogue Access Point that will redirect to captive portal when user try to connect. There will be a lot of option for different captive portal which are listed in captive portal portion. It will then capture all the usernames or password that different use to login to captive portal. It run continounsly and capture usernames and password until attack is closed by presses "CTRL+C" twice.

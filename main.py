@@ -7,6 +7,7 @@ from changemode import ChangeMode # type: ignore
 from ewil_twin_captive_portal_type1 import EwilTwin1 # type: ignore
 from evil_twin_type2 import EvilTwin2 # type: ignore
 from evil_twin_type3 import EvilTwin3 # type: ignore
+from sources import Sources
 from colorama import init, Fore
 init()
 GREEN = Fore.GREEN
@@ -59,6 +60,9 @@ Bash Command: sudo pip3 install -r requirements.txt
 
 * Change Mode of Wireless Adaptor:
 {GREEN}It can be used to change the mode of Wireless adaptor from managed to monitor or monitor to managed accordingly.
+{RESET}
+* Change Mac Address of Wireless Adaptor:
+{GREEN}It can be used to change the mac address of Wireless adaptor. It have two option either change mac address to new mac address provided by you or new mac address similar to mac address or bssid of target network. For second option, tool will list the surronding networks and after selecting the target network, it will convert the mac address of adapter to the mac address or bssid of selected target network.
 {RESET}
 * Evil Twin type 1:
 
@@ -206,24 +210,62 @@ if error_raise == 0:
         os.system("clear")
         banner()
         print(f"{GREEN}0. Change Mode of Wireless Adapter")
-        print("1. Evil twin with captive portal. Type 1  (DEAUTH Target + Rogue Access Point with Captive portal + Sniff Login Details)")
-        print("2. Evil Twin. Type 2  (Capture Target WiFI Password using Captive Portal)")
-        print("3. Evil Twin. Type 3  (Rogue Access Point with internet + Sniff Data)")
-        print("4. Help")
-        print("5. Exit")
+        print("1. Change Mac Address of Wireless Adapter")
+        print("2. Evil twin. Type 1  (DEAUTH Target + Rogue Access Point with Captive portal + Sniff Login Details)")
+        print("3. Evil Twin. Type 2  (Capture Target WiFI Password using Captive Portal)")
+        print("4. Evil Twin. Type 3  (Rogue Access Point with internet + Sniff Data)")
+        print("5. Help")
+        print("6. Exit")
         option = input(f"Select the option by typing corresponding index number: 0-3 --> {RESET}")
-        if option == "5" or option == "exit" or option == "Exit":
+        if option == "6" or option == "exit" or option == "Exit":
             ON = False
         elif option == "0":
             changewirelessmode = ChangeMode()
             changewirelessmode.changemodes()
         elif option == "1":
-            ewiltwin1 = EwilTwin1()
+            os.system("clear")
+            print(f"\n{GREEN}[+] Mac Changer Menu:")
+            print("0. Change mac address by providing new mac address.")
+            print("1. Change mac address to bssid/mac-address of target network.")
+            print("2. Back")
+            mac_option = input(f"Select the option by typing corresponding index number like 1 or 2  --> {RESET}")
+            if mac_option == "0":
+                os.system("clear")
+                network_interface = Sources().selectadapter()
+                os.system("clear")
+                print(f"{BLUE}[+] Selected Interface{RESET} = {GREEN}{network_interface}{RESET}")
+                new_mac = input(f"{GREEN}[!] Provide the new mac address --> {RESET}")
+                Sources().change_mac(network_interface,new_mac)
+            elif mac_option == "1":
+                os.system("clear")
+                sources1 = Sources()
+                list_of_interface = sources1.listinterfaces()
+                while True:
+                    try:
+                        interface_option = input(f"{GREEN}Select the network interface by typing corresponding index number for listing networks(It's mode will be changed to monitor) -->{RESET} ")
+                        interface_option2 = input(f"{GREEN}Select the interface by typing corresponding index number to change its mac address( It could be similar to above.) --> {RESET}")
+                        interface1 = list_of_interface[int(interface_option)]
+                        interface2 = list_of_interface[int(interface_option2)]
+                    except ValueError:
+                        pass
+                    else:
+                        break
+                ChangeMode().changetomonitormode(interface1)
+                os.system("clear")
+                target_network = sources1.select_network(interface1)
+                ChangeMode().changetomanagedmode(interface1)
+                target_network_bssid = target_network["bssid"]
+                time.sleep(2)
+                os.system("clear")
+                sources1.change_mac(interface2, target_network_bssid)
+
         elif option == "2":
-            eviltwin2 = EvilTwin2()
+            ewiltwin1 = EwilTwin1()
         elif option == "3":
+            eviltwin2 = EvilTwin2()
+        elif option == "4":
             eviltwin2 = EvilTwin3()
-        elif option == "4" or option == "help" or option == "Help" or option == "HELP":        
+        elif option == "5" or option == "help" or option == "Help" or option == "HELP":        
             try:
                 os.system("clear")
                 help_function()

@@ -87,6 +87,39 @@ class Sources:
             print(result.stdout)
         except subprocess.CalledProcessError as e:
             print(f"{RED}[--]Failed to disconnect to {network_name}: {e.stderr}{RESET}")
+    
+    def change_mac(self, interface, new_mac):
+        try:
+            def is_valid_mac(mac):
+                mac_regex = re.compile(r"^([0-9A-Fa-f]{2}:){5}([0-9A-Fa-f]{2})$")
+                return bool(mac_regex.match(mac))
+            if is_valid_mac(new_mac):
+                print(f"\n{GREEN}[!] Changing Mac Address......{RESET}")
+                result = subprocess.run("systemctl stop NetworkManager", shell=True, capture_output=True, text=True)
+                result = subprocess.run("systemctl stop wpa_supplicant", shell=True, capture_output=True, text=True)
+                result = subprocess.run(f"ifconfig {interface} down", shell=True, capture_output=True, text=True)
+                result = subprocess.run(f"ifconfig {interface} hw ether {new_mac}",shell=True, capture_output=True, text=True)
+                if "SIOCSIFHWADDR: Cannot assign requested address" in result.stderr:
+                    print(f"{RED}[-] Cannot assign requested mac address. Try Again with different.{RESET}")
+                    time.sleep(3)
+                elif "SIOCSIFHWADDR: Operation not permitted" in result.stderr:
+                    print(f"{RED}[-] Changing of mac address is not permitted by network interface. Changing of mac address of selected network insterface is not allowed by network interface. Use different network interface...{RESET}")
+                    time.sleep(4)
+                elif result.stderr != "":
+                    print(f"{RED}[-] {result.stderr}{RESET}")
+                    time.sleep(3)
+                else:
+                    print(f"{GREEN}[+] MAC address changed to{GREEN} {BLUE}{new_mac}{RESET} {GREEN}on interface{RESET} {BLUE}{interface}{RESET}")
+                result = subprocess.run(f"ifconfig {interface} up", shell=True, capture_output=True, text=True)
+                result = subprocess.run("systemctl start NetworkManager", shell=True, capture_output=True, text=True)
+                result = subprocess.run("systemctl start wpa_supplicant", shell=True, capture_output=True, text=True)
+                time.sleep(2)
+            else:
+                print(f"\n{RED}[-] Mac address pattern is not correct it should be like 00:11:22:33:44:55{RESET}")
+                time.sleep(3)
+        except subprocess.CalledProcessError as e:
+            print(f"\n{RED}Try Again as Error occurred: {e}{RESET}")
+            time.sleep(3)
 
     def listinterfaces(self):
         list_of_interfaces = []
