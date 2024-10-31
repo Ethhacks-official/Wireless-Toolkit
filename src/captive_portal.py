@@ -117,7 +117,9 @@ class CaptivePortal:
 
     def own_portal_configure(self):
         try:
+            os.system("clear")
             print(f"\n {RED}[-][-]In order to configure your own website portal, Place all websites file in folder and Paste that folder in '/var/www/html'  .{RESET}\n")
+            check = input("Press enter to continue --> ")
             os.system("clear")
             result = Sources().list_directory('/var/www/html')
             website = int(input(f"{BLUE}[+]Your apache websites directory contain following website. Select the website by typing corresponding number to create captive using that directory: -->{RESET}"))
@@ -177,7 +179,7 @@ class CaptivePortal:
 
     def clone_website(self,website,path,website_name):
         print(f"{GREEN}\n[+] Cloning login page::::{RESET}")
-        result = subprocess.run(f"wget -m -k -p '{website}' -P '{path}{website_name}'", shell=True, capture_output=True, text=True)
+        result = subprocess.run(f"wget -m -k -p '{website}' -P '{path}{website_name}' --user-agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3' --no-check-certificate", shell=True, capture_output=True, text=True)
         if "failed: Connection refused." in result.stderr or "failed: No route to host." in result.stderr or "failed: Name or service not known." in result.stderr and "Converted links in 0 files" in result.stderr:
             time.sleep(1)
             return ""
