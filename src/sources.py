@@ -586,7 +586,7 @@ class Sources:
         
         
         print(f"\n{GREEN}[+]Configuring Apache File for redirection .....{RESET}")
-        configuration_data = '<Directory "/var/www/html">\nRewriteEngine On\nRewriteBase /\nRewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]\nRewriteRule ^(.*)$ http://%1/$1 [R=301,L]\nRewriteCond %{REQUEST_FILENAME} !-f\nRewriteCond %{REQUEST_FILENAME} !-d\nRewriteRule ^(.*)$ / [L,QSA]\n</Directory>'
+        configuration_data = '<Directory "/var/www/html">\nRewriteEngine On\nRewriteBase /\nRewriteCond %{HTTP_HOST} ^www\\.(.*)$ [NC]\nRewriteRule ^(.*)$ http://%1/$1 [R=301,L]\nRewriteCond %{REQUEST_FILENAME} !-f\nRewriteCond %{REQUEST_FILENAME} !-d\nRewriteRule ^(.*)$ / [L,QSA]\n</Directory>'
         try:
             with open(apacheconfigfile, 'r') as f:
                 contents = f.read()
