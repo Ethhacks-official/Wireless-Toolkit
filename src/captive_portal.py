@@ -64,7 +64,7 @@ class CaptivePortal:
             network_config.connect_to_open_wifi(self.networkname,self.networkinterface)
             ip = network_config.get_ip_address(self.networkinterface)
             ip = ip.split(".")
-            portal_ip = f"{ip[0]}.{ip[1]}.{ip[2]}.2"
+            portal_ip = f"{ip[0]}.{ip[1]}.{ip[2]}.1"
             url = f"http://{portal_ip}/"
             files_location = f'/var/www/html/'
             while True:
