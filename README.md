@@ -76,3 +76,8 @@ First program will try to install the required linux tools. It will try to insta
 - Dnsmasq
 
     
+
+
+## License
+
+This project is licensed under the GNU LESSER GENERAL PUBLIC LICENSE Version 2.1 - see the [LICENSE] file for details.
